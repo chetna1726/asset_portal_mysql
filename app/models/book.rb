@@ -3,6 +3,12 @@ class Book < ApplicationRecord
   has_many :books_categories
   has_many :categories, through: :books_categories
 
+  validates :title, :isbn, presence: true
+  validates :title, :isbn, uniqueness: true, allow_blank: true
+
+  after_create :populate_graph_db
+  after_destroy :remove_from_graph_db
+
   def self.recommendations
     recommendations = {}
     Book.all.each do |book|
@@ -20,4 +26,15 @@ class Book < ApplicationRecord
     end
     recommendations
   end
+
+  private
+
+    def populate_graph_db
+      book = Neo4j::Book.create(isbn: isbn, title: title, year_published: year_published)
+      book.author = Neo4j::User.find_by(name: user.name) if user_id?
+    end
+
+    def remove_from_graph_db
+      Neo4j::Book.where(isbn: isbn).destroy
+    end
 end

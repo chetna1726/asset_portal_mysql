@@ -21,7 +21,8 @@
         <td><%= book.isbn %></td>
         <td><%= book.title %></td>
         <td><%= book.year_published %></td>
-        <td><%= book.user.try(:name) %></td>
+        <!-- <td><%#= book.user.try(:name) %></td> -->
+        <td><%= book.author.try(:name) %></td>
         <td>
           <ul>
             <% book.categories.each do |category| %>
@@ -31,16 +32,21 @@
         </td>
         <td>
           <ul>
-            <% if @recommendations.key? "#{book.isbn}" %>
-              <% @recommendations[book.isbn].each do |book| %>
+            <% if @recommendations[book.isbn] %>
+              <% @recommendations[book.isbn].first(5).each do |book| %>
                 <li><%= book.try(:title) %></li>
               <% end %>
             <% end %>
+            <%# if @recommendations.key? "#{book.isbn}" %>
+              <%# @recommendations[book.isbn].limit(5).each do |book| %>
+                <!-- <li><%#= book.try(:title) %></li> -->
+              <%# end %>
+            <%# end %>
           </ul>
         </td>
-        <td><%= link_to 'Show', book %></td>
+        <td><%= link_to 'Show', book_path(book) %></td>
         <td><%= link_to 'Edit', edit_book_path(book) %></td>
-        <td><%= link_to 'Destroy', book, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Destroy', book_path(book), method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </tbody>

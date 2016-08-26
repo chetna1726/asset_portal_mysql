@@ -1,0 +1,5 @@
+2016-08-22 07:30:36.492+0000 INFO  Starting...
+2016-08-22 07:30:37.738+0000 INFO  Bolt enabled on localhost:7472.
+2016-08-22 07:30:39.754+0000 INFO  Started.
+2016-08-22 07:30:40.541+0000 INFO  Remote interface available at http://localhost:7474/
+2016-08-26 11:11:32.499+0000 INFO  Transaction with id 1262 has been automatically rolled back.

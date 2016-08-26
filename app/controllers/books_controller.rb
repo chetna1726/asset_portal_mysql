@@ -4,8 +4,10 @@ class BooksController < ApplicationController
   # GET /books
   # GET /books.json
   def index
-    @books = Book.order(:isbn).includes(:user, :categories)
-    @recommendations = Book.recommendations
+    @books = Neo4j::Book.all.with_associations(:author, :categories)
+    @recommendations = Neo4j::Book.recommendations
+    # @books = Book.order(:isbn).includes(:user, :categories)
+    # @recommendations = Book.recommendations
   end
 
   # GET /books/1
